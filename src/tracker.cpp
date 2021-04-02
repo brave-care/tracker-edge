@@ -272,6 +272,14 @@ bool Tracker::getChargeEnabled() {
 }
 
 void Tracker::evaluateBatteryCharge() {
+    if (_chargeStatus != TrackerChargeState::CHARGE_INIT && _chargeStatus != _previousChargeStatus)
+    {
+        Log.info("charge status changed %d", (int)_chargeStatus);
+        String eventData = String::format("%d", _chargeStatus);
+        Particle.publish("charge_status_change", eventData, PRIVATE);
+    }
+    _previousChargeStatus = _chargeStatus;
+
     // Manage charge enablement/disablement workaround
     unsigned int evalChargingInterval = sleep.isSleepDisabled() ? TrackerChargingAwakeEvalTime : TrackerChargingSleepEvalTime;
     if (System.uptime() - _evalChargingTick > evalChargingInterval) {
