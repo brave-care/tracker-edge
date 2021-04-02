@@ -113,6 +113,7 @@ class Tracker
         TrackerChargeStatus _pendingChargeStatus;
         std::mutex _pendingLock;
         TrackerChargeState _chargeStatus;
+        TrackerChargeState _previousChargeStatus;
         unsigned int _lowBatteryEvent;
         unsigned int _evalChargingTick;
         bool _batteryChargeEnabled;
